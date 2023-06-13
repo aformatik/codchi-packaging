@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="iso-8859-15"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+    <title>pulse-daemon.conf(5)</title>
+    <style type="text/css">
+        body { color: black; background-color: white; }
+        a:link, a:visited { color: #900000; }
+        h1 { text-transform:uppercase; font-size: 18pt; }
+        p { margin-left:1cm; margin-right:1cm; }
+        .cmd { font-family:monospace; }
+        .file { font-family:monospace; }
+        .arg { text-transform:uppercase; font-family:monospace; font-style: italic; }
+        .opt { font-family:monospace; font-weight: bold;  }
+        .manref { font-family:monospace; }
+        .option .optdesc { margin-left:2cm; }
+      </style>
+  </head>
+  <body><h1>Name</h1><p>pulse-daemon.conf - PulseAudio daemon configuration file</p>
+
+  <h1>Synopsis</h1>
+    <p><span class="file">~/.config/pulse/daemon.conf</span></p>
+    <p><span class="file">~/.config/pulse/daemon.conf.d/*.conf</span></p>
+    <p><span class="file">/pulseaudio/etc/pulse/daemon.conf</span></p>
+    <p><span class="file">/pulseaudio/etc/pulse/daemon.conf.d/*.conf</span></p>
+  
+
+  <h1>Description</h1>
+    <p>The PulseAudio sound server reads configuration directives from
+    a configuration file on startup. If the per-user file
+    <span class="file">~/.config/pulse/daemon.conf</span> exists, it is used, otherwise the
+    system configuration file <span class="file">/pulseaudio/etc/pulse/daemon.conf</span>
+    is used. In addition to those main files, configuration directives can also
+    be put in files under directories
+    <span class="file">~/.config/pulse/daemon.conf.d/</span> and
+    <span class="file">/pulseaudio/etc/pulse/daemon.conf.d/</span>. Those files have to
+    have the .conf file name extension, but otherwise the file names can be
+    chosen freely. The files under daemon.conf.d are processed in alphabetical
+    order. In case the same option is set in multiple files, the last file to
+    set an option overrides earlier files. The main daemon.conf file is
+    processed first, so options set in files under daemon.conf.d override the
+    main file.</p>
+
+    <p>Please note that the server also reads a configuration script on
+    startup. See <span class="manref">default.pa(5)</span>.</p>
+
+    <p>The configuration file is a simple collection of variable
+    declarations. If the configuration file parser encounters either ;
+    or # it ignores the rest of the line until its end.</p>
+
+    <p>For the settings that take a boolean argument the values
+    <span class="opt">true</span>, <span class="opt">yes</span>, <span class="opt">on</span> and <span class="opt">1</span>
+    are equivalent, resp. <span class="opt">false</span>, <span class="opt">no</span>,
+    <span class="opt">off</span>, <span class="opt">0</span>.</p>
+
+  
+
+  <h1>General Directives</h1>
+
+    <div class="option">
+      <p><span class="opt">daemonize=</span> Daemonize after startup. Takes a
+      boolean value, defaults to <span class="opt">no</span>. The <span class="opt">--daemonize</span>
+      command line option takes precedence.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">fail=</span> Fail to start up if any of the directives
+      in the configuration script <span class="file">default.pa</span>
+      fail. Takes a boolean argument, defaults to <span class="opt">yes</span>. The <span class="opt">--fail</span> command line
+      option takes precedence.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">allow-module-loading=</span> Allow/disallow module
+      loading after startup. This is a security feature that if
+      disabled makes sure that no further modules may be loaded into
+      the PulseAudio server after startup completed. It is recommended
+      to disable this when <span class="opt">system-instance</span> is
+      enabled. Please note that certain features like automatic
+      hot-plug support will not work if this option is enabled. Takes
+      a boolean argument, defaults to <span class="opt">yes</span>. The
+      <span class="opt">--disallow-module-loading</span> command line option takes
+      precedence.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">allow-exit=</span> Allow/disallow exit on user
+      request. Defaults to <span class="opt">yes</span>.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">resample-method=</span> The resampling algorithm to
+      use. Use one of <span class="opt">src-sinc-best-quality</span>,
+      <span class="opt">src-sinc-medium-quality</span>, <span class="opt">src-sinc-fastest</span>,
+      <span class="opt">src-zero-order-hold</span>, <span class="opt">src-linear</span>,
+      <span class="opt">trivial</span>, <span class="opt">speex-float-N</span>,
+      <span class="opt">speex-fixed-N</span>, <span class="opt">ffmpeg</span>, <span class="opt">soxr-mq</span>,
+      <span class="opt">soxr-hq</span>, <span class="opt">soxr-vhq</span>. See the
+      documentation of libsamplerate and speex for explanations of the
+      different src- and speex- methods, respectively. The method
+      <span class="opt">trivial</span> is the most basic algorithm implemented. If
+      you're tight on CPU consider using this. On the other hand it has
+      the worst quality of them all. The Speex resamplers take an
+      integer quality setting in the range 0..10 (bad...good). They
+      exist in two flavours: <span class="opt">fixed</span> and <span class="opt">float</span>. The former uses fixed point
+      numbers, the latter relies on floating point numbers. On most
+      desktop CPUs the float point resampler is a lot faster, and it
+      also offers slightly better quality. The soxr-family methods
+      are based on libsoxr, a resampler library from the SoX sound processing utility.
+      The mq variant has the best performance of the three. The hq is more expensive
+      and, according to SoX developers, is considered the best choice for audio of up to 16 bits per sample.
+      The vhq variant has more precision than hq and is more suitable for larger samples. The Soxr resamplers
+      generally offer better quality at less CPU compared to other resamplers, such as speex.
+      The downside is that they can add a significant delay to the output
+      (usually up to around 20 ms, in rare cases more).
+      See the output of <span class="opt">dump-resample-methods</span> for a complete list of all
+      available resamplers. Defaults to <span class="opt">speex-float-1</span>. The
+      <span class="opt">--resample-method</span> command line option takes precedence.
+      Note that some modules overwrite or allow overwriting of the
+      resampler to use.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">avoid-resampling=</span> If set, try to configure the
+      device to avoid resampling. This only works on devices which
+      support reconfiguring their rate, and when no other streams are
+      already playing or capturing audio. The device will also not be
+      configured to a rate less than the default and alternate sample
+      rates.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">enable-remixing=</span> If disabled never upmix or
+      downmix channels to different channel maps. Instead, do a simple
+      name-based matching only. Defaults to <span class="opt">yes</span>.
+      There is no known valid use case for setting this option to
+      <span class="opt">no</span>, therefore, this option is deprecated and may be
+      removed in a future version of PulseAudio.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">remixing-use-all-sink-channels=</span> If enabled, use
+      all sink channels when remixing. Otherwise, remix to the minimal
+      set of sink channels needed to reproduce all of the source
+      channels. (This has no effect on LFE remixing.) Defaults to
+      <span class="opt">yes</span>.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">enable-lfe-remixing=</span> This is a way to set
+      <span class="opt">remixing-produce-lfe</span> and <span class="opt">remixing-consume-lfe</span>
+      to the same value at once. This option only exists for backward
+      compatibility and may be removed in a future version of PulseAudio.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">remixing-produce-lfe=</span> If enabled, and the sink input
+      does not have the LFE channel, synthesize the output LFE channel
+      as a (lowpass-filtered, if <span class="opt">lfe-crossover-freq</span> is not 0)
+      average of all input channels. Also, when <span class="opt">lfe-crossover-freq</span>
+      is not 0, filter out low frequencies from other channels while
+      producing a synthetic LFE output. If disabled, the output LFE channel
+      will only get a signal when an input LFE channel is available as well.
+      Defaults to <span class="opt">no</span>.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">remixing-consume-lfe=</span> If enabled, and the sink does not
+      have an LFE channel, redirect the input LFE channel (if any) to other
+      channels. If disabled, the input LFE channel will remain unused unless
+      the sink has the LFE channel as well. Defaults to <span class="opt">no</span>.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">lfe-crossover-freq=</span> The crossover frequency (in Hz) for the
+      LFE filter. Set it to 0 to disable the LFE filter. Defaults to 0.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">use-pid-file=</span> Create a PID file in the runtime directory
+      (<span class="file">$XDG_RUNTIME_DIR/pulse/pid</span>). If this is enabled you may
+      use commands like <span class="opt">--kill</span> or <span class="opt">--check</span>. If
+      you are planning to start more than one PulseAudio process per
+      user, you better disable this option since it effectively
+      disables multiple instances. Takes a boolean argument, defaults
+      to <span class="opt">yes</span>. The <span class="opt">--use-pid-file</span> command line
+      option takes precedence.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">cpu-limit=</span> If disabled do not install the CPU load
+      limiter, even on platforms where it is supported. This option is
+      useful when debugging/profiling PulseAudio to disable disturbing
+      SIGXCPU signals. Takes a boolean argument, defaults to
+      <span class="opt">no</span>. The <span class="opt">--no-cpu-limit</span> command line
+      argument takes precedence.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">system-instance=</span> Run the daemon as system-wide
+      instance, requires root privileges. Takes a boolean argument,
+      defaults to <span class="opt">no</span>. The <span class="opt">--system</span> command line
+      argument takes precedence.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">local-server-type=</span> Please don't use this option if
+      you don't have to! This option is currently only useful when you
+      want D-Bus clients to use a remote server. This option may be
+      removed in future versions. If you only want to run PulseAudio
+      in the system mode, use the <span class="opt">system-instance</span> option.
+      This option takes one of <span class="opt">user</span>, <span class="opt">system</span> or
+      <span class="opt">none</span> as the argument. This is essentially a duplicate
+      for the <span class="opt">system-instance</span> option. The difference is the
+      <span class="opt">none</span> option, which is useful when you want to use a
+      remote server with D-Bus clients. If both this and
+      <span class="opt">system-instance</span> are defined, this option takes
+      precedence. Defaults to whatever the <span class="opt">system-instance</span>
+      is set.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">enable-shm=</span> Enable data transfer via POSIX
+      or memfd shared memory. Takes a boolean argument, defaults to
+      <span class="opt">yes</span>. The <span class="opt">--disable-shm</span> command line
+      argument takes precedence.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">enable-memfd=</span>. Enable memfd shared memory. Takes
+      a boolean argument, defaults to <span class="opt">yes</span>.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">shm-size-bytes=</span> Sets the shared memory segment
+      size for the daemon, in bytes. If left unspecified or is set to 0
+      it will default to some system-specific default, usually 64
+      MiB. Please note that usually there is no need to change this
+      value, unless you are running an OS kernel that does not do
+      memory overcommit.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">lock-memory=</span> Locks the entire PulseAudio process
+      into memory. While this might increase drop-out safety when used
+      in conjunction with real-time scheduling this takes away a lot
+      of memory from other processes and might hence considerably slow
+      down your system. Defaults to <span class="opt">no</span>.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">flat-volumes=</span> Enable 'flat' volumes, i.e. where
+      possible let the sink volume equal the maximum of the volumes of
+      the inputs connected to it. Takes a boolean argument, defaults
+      to <span class="opt">no</span>.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">rescue-streams=</span> Enable rescuing of streams if the
+      used sink or source becomes unavailable. Takes a boolean argument.
+      If set to <span class="opt">yes</span>, pulseaudio will try to move the streams
+      from a sink or source that becomes unavailable to the default sink
+      or source. If set to <span class="opt">no</span>, streams will be killed if the
+      corresponding sink or source disappears. Defaults to <span class="opt">yes</span>.</p>
+    </div>
+
+  
+
+  <h1>Scheduling</h1>
+
+    <div class="option">
+      <p><span class="opt">high-priority=</span> Renice the daemon after startup to
+      become a high-priority process. This a good idea if you
+      experience drop-outs during playback. However, this is a certain
+      security issue, since it works when called SUID root only, or
+      RLIMIT_NICE is used. root is dropped immediately after gaining
+      the nice level on startup, thus it is presumably safe. See
+      <span class="manref">pulseaudio(1)</span> for more
+      information. Takes a boolean argument, defaults to <span class="opt">yes</span>. The <span class="opt">--high-priority</span>
+      command line option takes precedence.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">realtime-scheduling=</span> Try to acquire SCHED_FIFO
+      scheduling for the IO threads. The same security concerns as
+      mentioned above apply. However, if PA enters an endless loop,
+      realtime scheduling causes a system lockup. Thus, realtime
+      scheduling should only be enabled on trusted machines for
+      now. Please note that only the IO threads of PulseAudio are made
+      real-time. The controlling thread is left a normally scheduled
+      thread. Thus enabling the high-priority option is orthogonal.
+      See <span class="manref">pulseaudio(1)</span> for more
+      information. Takes a boolean argument, defaults to <span class="opt">yes</span>. The
+      <span class="opt">--realtime</span> command line option takes precedence.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">realtime-priority=</span> The realtime priority to
+      acquire, if <span class="opt">realtime-scheduling</span> is enabled. Note: JACK uses 10
+      by default, 9 for clients. Thus it is recommended to choose the
+      PulseAudio real-time priorities lower. Some PulseAudio threads
+      might choose a priority a little lower or higher than the
+      specified value. Defaults to <span class="opt">5</span>.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">nice-level=</span> The nice level to acquire for the
+      daemon, if <span class="opt">high-priority</span> is enabled. Note: on some
+      distributions X11 uses -10 by default. Defaults to -11.</p>
+    </div>
+
+  
+
+  <h1>Idle Times</h1>
+
+    <div class="option">
+      <p><span class="opt">exit-idle-time=</span> Terminate the daemon after the
+      last client quit and this time in seconds passed. Use a negative value to
+      disable this feature. Defaults to 20. The <span class="opt">--exit-idle-time</span>
+      command line option takes precedence.</p>
+
+      <p>When PulseAudio runs in the per-user mode and detects a login
+      session, then any positive value will be reset to 0 so that PulseAudio
+      will terminate immediately on logout. A positive value therefore has
+      effect only in environments where there's no support for login session
+      tracking (or if the user is logged in without a session spawned, a.k.a.
+      lingering). A negative value can still be used to disable any automatic
+      exit.</p>
+
+      <p>When PulseAudio runs in the system mode, automatic exit is always
+      disabled, so this option does nothing.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">scache-idle-time=</span> Unload autoloaded sample cache
+      entries after being idle for this time in seconds. Defaults to
+      20. The <span class="opt">--scache-idle-time</span> command line option takes
+      precedence.</p>
+    </div>
+
+  
+
+  <h1>Paths</h1>
+
+    <div class="option">
+      <p><span class="opt">dl-search-path=</span> The path where to look for dynamic
+      shared objects (DSOs/plugins). You may specify more than one
+      path separated by colons. The default path depends on compile
+      time settings. The <span class="opt">--dl-search-path</span> command line
+      option takes precedence. </p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">default-script-file=</span> The default configuration
+      script file to load. Specify an empty string for not loading a
+      default script file. The default behaviour is to load
+      <span class="file">~/.config/pulse/default.pa</span>, and if that file does not
+      exist fall back to the system wide installed version
+      <span class="file">/pulseaudio/etc/pulse/default.pa</span>. If run in system-wide
+      mode the file <span class="file">/pulseaudio/etc/pulse/system.pa</span> is used
+      instead. If <span class="opt">-n</span> is passed on the command line
+      or <span class="opt">default-script-file=</span> is disabled the default
+      configuration script is ignored.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">load-default-script-file=</span> Load the default
+      configuration script file as specified
+      in <span class="opt">default-script-file=</span>. Defaults to <span class="opt">yes</span>.</p>
+    </div>
+
+  
+
+  <h1>Logging</h1>
+
+    <div class="option">
+      <p><span class="opt">log-target=</span> The default log target. Use either
+      <span class="opt">stderr</span>, <span class="opt">syslog</span>, <span class="opt">journal</span> (optional),
+      <span class="opt">auto</span>, <span class="opt">file:PATH</span> or <span class="opt">newfile:PATH</span>. On traditional
+      systems <span class="opt">auto</span> is equivalent to <span class="opt">syslog</span>. On systemd-enabled
+      systems, auto is equivalent to <span class="opt">journal</span>, in case <span class="opt">daemonize</span>
+      is enabled, and to <span class="opt">stderr</span> otherwise. If set to <span class="opt">file:PATH</span>,
+      logging is directed to the file indicated by PATH. <span class="opt">newfile:PATH</span> is
+      otherwise the same as <span class="opt">file:PATH</span>, but existing files are never
+      overwritten. If the specified file already exists, a suffix is added to
+      the file name to avoid overwriting. Defaults to <span class="opt">auto</span>. The
+      <span class="opt">--log-target</span> command line option takes precedence.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">log-level=</span> Log level, one of <span class="opt">debug</span>,
+      <span class="opt">info</span>, <span class="opt">notice</span>, <span class="opt">warning</span>,
+      <span class="opt">error</span>. Log messages with a lower log level than
+      specified here are not logged. Defaults to
+      <span class="opt">notice</span>. The <span class="opt">--log-level</span> command line
+      option takes precedence. The <span class="opt">-v</span> command line option
+      might alter this setting.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">log-meta=</span> With each logged message log the code
+      location the message was generated from. Defaults to
+      <span class="opt">no</span>.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">log-time=</span> With each logged message log the
+      relative time since startup. Defaults to <span class="opt">no</span>.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">log-backtrace=</span> When greater than 0, with each
+      logged message log a code stack trace up the specified
+      number of stack frames. Defaults to <span class="opt">0</span>.</p>
+    </div>
+
+  
+
+  <h1>Resource Limits</h1>
+
+    <p>See <span class="manref">getrlimit(2)</span> for
+    more information. Set to -1 if PulseAudio shall not touch the resource
+    limit. Not all resource limits are available on all operating
+    systems.</p>
+
+    <div class="option">
+      <p><span class="opt">rlimit-as</span> Defaults to -1.</p>
+    </div>
+    <div class="option">
+      <p><span class="opt">rlimit-rss</span> Defaults to -1.</p>
+    </div>
+    <div class="option">
+      <p><span class="opt">rlimit-core</span> Defaults to -1.</p>
+    </div>
+    <div class="option">
+      <p><span class="opt">rlimit-data</span> Defaults to -1.</p>
+    </div>
+    <div class="option">
+      <p><span class="opt">rlimit-fsize</span> Defaults to -1.</p>
+    </div>
+    <div class="option">
+      <p><span class="opt">rlimit-nofile</span> Defaults to 256.</p>
+    </div>
+    <div class="option">
+      <p><span class="opt">rlimit-stack</span> Defaults to -1.</p>
+    </div>
+    <div class="option">
+      <p><span class="opt">rlimit-nproc</span> Defaults to -1.</p>
+    </div>
+    <div class="option">
+      <p><span class="opt">rlimit-locks</span> Defaults to -1.</p>
+    </div>
+    <div class="option">
+      <p><span class="opt">rlimit-sigpending</span> Defaults to -1.</p>
+    </div>
+    <div class="option">
+      <p><span class="opt">rlimit-msgqueue</span> Defaults to -1.</p>
+    </div>
+    <div class="option">
+      <p><span class="opt">rlimit-memlock</span> Defaults to 16 KiB. Please note
+      that the JACK client libraries may require more locked
+      memory.</p>
+    </div>
+    <div class="option">
+      <p><span class="opt">rlimit-nice</span> Defaults to 31. Please make sure that
+      the default nice level as configured with <span class="opt">nice-level</span>
+      fits in this resource limit, if <span class="opt">high-priority</span> is
+      enabled.</p>
+    </div>
+    <div class="option">
+      <p><span class="opt">rlimit-rtprio</span> Defaults to 9. Please make sure that
+      the default real-time priority level as configured with
+      <span class="opt">realtime-priority=</span> fits in this resource limit, if
+      <span class="opt">realtime-scheduling</span> is enabled. The JACK client
+      libraries require a real-time priority of 9 by default.</p>
+    </div>
+    <div class="option">
+      <p><span class="opt">rlimit-rttime</span> Defaults to 1000000.</p>
+    </div>
+
+  
+
+  <h1>Default Device Settings</h1>
+
+    <p>Most drivers try to open the audio device with these settings
+    and then fall back to lower settings. The default settings are CD
+    quality: 16bit native endian, 2 channels, 44100 Hz sampling.</p>
+
+    <div class="option">
+      <p><span class="opt">default-sample-format=</span> The default sampling
+      format. See
+      https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/SupportedAudioFormats/
+      for possible values.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">default-sample-rate=</span> The default sample frequency.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">default-sample-channels</span> The default number of channels.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">default-channel-map</span> The default channel map.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">alternate-sample-rate</span> The alternate sample
+      frequency. Sinks and sources will use either the
+      default-sample-rate value or this alternate value, typically 44.1
+      or 48kHz. Switching between default and alternate values is
+      enabled only when the sinks/sources are suspended. This option
+      is ignored in passthrough mode where the stream rate will be used.
+      If set to the same value as the default sample rate, this feature is
+      disabled.</p>
+    </div>
+
+  
+
+  <h1>Default Fragment Settings</h1>
+
+    <p>Some hardware drivers require the hardware playback buffer to
+    be subdivided into several fragments. It is possible to change
+    these buffer metrics for machines with high scheduling
+    latencies. Not all possible values that may be configured here are
+    available in all hardware. The driver will find the nearest
+    setting supported. Modern drivers that support timer-based
+    scheduling ignore these options.</p>
+
+    <div class="option">
+      <p><span class="opt">default-fragments=</span> The default number of
+      fragments. Defaults to 4.</p>
+    </div>
+    <div class="option">
+      <p><span class="opt">default-fragment-size-msec=</span>The duration of a
+      single fragment. Defaults to 25ms (i.e. the total buffer is thus
+      100ms long).</p>
+    </div>
+
+  
+
+  <h1>Default Deferred Volume Settings</h1>
+
+    <p>With the flat volume feature enabled, the sink HW volume is set
+    to the same level as the highest volume input stream. Any other streams
+    (with lower volumes) have the appropriate adjustment applied in SW to
+    bring them to the correct overall level. Sadly hardware mixer changes
+    cannot be timed accurately and thus this change of volumes can sometimes
+    cause the resulting output sound to be momentarily too loud or too soft.
+    So to ensure SW and HW volumes are applied concurrently without any
+    glitches, their application needs to be synchronized. The sink
+    implementation needs to support deferred volumes. The following
+    parameters can be used to refine the process.</p>
+
+    <div class="option">
+      <p><span class="opt">enable-deferred-volume=</span> Enable deferred volume for the sinks that
+      support it. This feature is enabled by default.</p>
+    </div>
+    <div class="option">
+      <p><span class="opt">deferred-volume-safety-margin-usec=</span> The amount of time (in
+      usec) by which the HW volume increases are delayed and HW volume
+      decreases are advanced. Defaults to 8000 usec.</p>
+    </div>
+    <div class="option">
+      <p><span class="opt">deferred-volume-extra-delay-usec=</span> The amount of time (in usec)
+      by which HW volume changes are delayed. Negative values are also allowed.
+      Defaults to 0.</p>
+    </div>
+
+  
+
+  <h1>Authors</h1>
+    <p>The PulseAudio Developers &lt;pulseaudio-discuss (at) lists (dot) freedesktop (dot) org&gt;; PulseAudio is available from <a class="url" href="http://pulseaudio.org/">http://pulseaudio.org/</a></p>
+  
+
+  <h1>See also</h1>
+    <p>
+      <span class="manref">pulse-client.conf(5)</span>, <span class="manref">default.pa(5)</span>, <span class="manref">pulseaudio(1)</span>, <span class="manref">pacmd(1)</span>
+    </p>
+  
+
+</body>
+</html>

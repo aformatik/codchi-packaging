@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="iso-8859-15"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+    <title>pasuspender(1)</title>
+    <style type="text/css">
+        body { color: black; background-color: white; }
+        a:link, a:visited { color: #900000; }
+        h1 { text-transform:uppercase; font-size: 18pt; }
+        p { margin-left:1cm; margin-right:1cm; }
+        .cmd { font-family:monospace; }
+        .file { font-family:monospace; }
+        .arg { text-transform:uppercase; font-family:monospace; font-style: italic; }
+        .opt { font-family:monospace; font-weight: bold;  }
+        .manref { font-family:monospace; }
+        .option .optdesc { margin-left:2cm; }
+      </style>
+  </head>
+  <body><h1>Name</h1><p>pasuspender - Temporarily suspend PulseAudio</p>
+
+  <h1>Synopsis</h1>
+    <p class="cmd">pasuspender [<span class="arg">options</span>] -- <span class="arg">PROGRAM</span> [<span class="arg">ARGUMENTS ...</span>]</p>
+    <p class="cmd">pasuspender <span class="opt">--help</span></p>
+    <p class="cmd">pasuspender <span class="opt">--version</span></p>
+  
+
+  <h1>Description</h1>
+    <p><span class="file">pasuspender</span> is a tool that can be used to tell a
+    local PulseAudio sound server to temporarily suspend access to the
+    audio devices, to allow other
+    applications access them directly. <span class="file">pasuspender</span> will
+    suspend access to the audio devices, fork a child process, and
+    when the child process terminates, resume access again.</p>
+
+    <p>Make sure to include <span class="opt">--</span> in
+    your <span class="file">pasuspender</span> command line before passing the
+    subprocess command line (as shown
+    above). Otherwise <span class="file">pasuspender</span> itself might end up
+    interpreting the command line switches and options you intended to
+    pass to the subprocess.</p>
+  
+
+  <h1>Options</h1>
+
+    <div class="option">
+      <p><span class="opt">-h | --help</span></p>
+
+      <div class="optdesc"><p>Show help.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">--version</span></p>
+
+      <div class="optdesc"><p>Show version information.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">-s | --server=</span><span class="arg">SERVER</span></p>
+
+      <div class="optdesc"><p>Specify the sound server to connect to.</p></div>
+    </div>
+
+  
+
+  <h1>Authors</h1>
+    <p>The PulseAudio Developers &lt;pulseaudio-discuss (at) lists (dot) freedesktop (dot) org&gt;; PulseAudio is available from <a class="url" href="http://pulseaudio.org/">http://pulseaudio.org/</a></p>
+  
+
+  <h1>See also</h1>
+    <p>
+      <span class="manref">pulseaudio(1)</span>, <span class="manref">padsp(1)</span>, <span class="manref">pacmd(1)</span>, <span class="manref">pactl(1)</span>
+    </p>
+  
+
+</body>
+</html>

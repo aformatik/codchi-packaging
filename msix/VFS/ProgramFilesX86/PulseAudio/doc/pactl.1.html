@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="iso-8859-15"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+    <title>pactl(1)</title>
+    <style type="text/css">
+        body { color: black; background-color: white; }
+        a:link, a:visited { color: #900000; }
+        h1 { text-transform:uppercase; font-size: 18pt; }
+        p { margin-left:1cm; margin-right:1cm; }
+        .cmd { font-family:monospace; }
+        .file { font-family:monospace; }
+        .arg { text-transform:uppercase; font-family:monospace; font-style: italic; }
+        .opt { font-family:monospace; font-weight: bold;  }
+        .manref { font-family:monospace; }
+        .option .optdesc { margin-left:2cm; }
+      </style>
+  </head>
+  <body><h1>Name</h1><p>pactl - Control a running PulseAudio sound server</p>
+
+  <h1>Synopsis</h1>
+    <p class="cmd">pactl [<span class="arg">options</span>] <span class="arg">COMMAND</span> [<span class="arg">ARGS ...</span>]</p>
+    <p class="cmd">pactl <span class="opt">--help</span></p>
+    <p class="cmd">pactl <span class="opt">--version</span></p>
+  
+
+  <h1>Description</h1>
+    <p><span class="file">pactl</span> can be used to issue control commands to the PulseAudio sound server.</p>
+
+    <p><span class="file">pactl</span> only exposes a subset of the available operations. For the full set use the <span class="manref">pacmd(1)</span>.</p>
+  
+
+  <h1>Options</h1>
+
+    <div class="option">
+      <p><span class="opt">-h | --help</span></p>
+
+      <div class="optdesc"><p>Show help.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">--version</span></p>
+
+      <div class="optdesc"><p>Show version information.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">-s | --server</span><span class="arg">=SERVER</span></p>
+
+      <div class="optdesc"><p>Choose the server to connect to.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">-n | --client-name</span><span class="arg">=NAME</span></p>
+
+      <div class="optdesc"><p>Specify the client name <span class="file">pactl</span> shall pass to the server when connecting.</p></div>
+    </div>
+
+  
+
+  <h1>Commands</h1>
+    <p>
+        When supplied as arguments to the commands below, the special names @DEFAULT_SINK@, @DEFAULT_SOURCE@ and @DEFAULT_MONITOR@ 
+        can be used to specify the default sink, source and monitor respectively.
+    </p>
+
+    <div class="option">
+      <p><span class="opt">stat</span></p>
+      <div class="optdesc"><p>Dump a few statistics about the memory usage of the PulseAudio daemon.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">info</span></p>
+      <div class="optdesc"><p>Dump some info about the PulseAudio daemon.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">list</span> [<span class="arg">short</span>] [<span class="arg">TYPE</span>]</p>
+      <div class="optdesc"><p>Dump all currently loaded modules, available sinks, sources, streams, etc.  <span class="arg">TYPE</span> must be one of:
+      modules, sinks, sources, sink-inputs, source-outputs, clients, samples, cards, message-handlers.  If not specified, all info is listed
+      with the exception of the message-handlers. If short is given, output is in a tabular format, for easy parsing by scripts.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">exit</span></p>
+      <div class="optdesc"><p>Asks the PulseAudio server to terminate.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">upload-sample</span> <span class="arg">FILENAME</span> [<span class="arg">NAME</span>]</p>
+      <div class="optdesc"><p>Upload a sound from the specified audio file into
+      the sample cache. The file types supported are those understood
+      by <span class="file">libsndfile</span>. The sample in the cache is named
+      after the audio file, unless the name is explicitly
+      specified.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">play-sample</span> <span class="arg">NAME</span> [<span class="arg">SINK</span>]</p>
+      <div class="optdesc"><p>Play the specified sample from the sample cache. It
+      is played on the default sink, unless the symbolic name or the
+      numerical index of the sink to play it on is
+      specified.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">remove-sample</span> <span class="arg">NAME</span></p>
+      <div class="optdesc"><p>Remove the specified sample from the sample cache.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">load-module</span> <span class="arg">NAME</span> [<span class="arg">ARGUMENTS ...</span>]</p>
+      <div class="optdesc"><p>Load the specified module with the specified arguments into the running sound server.
+      Prints the numeric index of the module just loaded to STDOUT. You can use it to unload the module later.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">unload-module</span> <span class="arg">ID|NAME</span></p>
+      <div class="optdesc"><p>Unload the module instance identified by the specified numeric index or unload all modules by the specified name.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">move-sink-input</span> <span class="arg">ID</span> <span class="arg">SINK</span></p>
+      <div class="optdesc"><p>Move the specified playback stream (identified by its numerical index) to the specified sink (identified by its symbolic name or numerical index).</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">move-source-output</span> <span class="arg">ID</span> <span class="arg">SOURCE</span></p>
+      <div class="optdesc"><p>Move the specified recording stream (identified by its numerical index) to the specified source (identified by its symbolic name or numerical index).</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">suspend-sink</span> <span class="arg">SINK</span> <span class="arg">true|false</span></p>
+      <div class="optdesc"><p>Suspend or resume the specified sink (which may be
+        specified either by its symbolic name or numerical index), depending whether true
+        (suspend) or false (resume) is passed as last argument. Suspending
+        a sink will pause all playback. Depending on the module implementing
+        the sink this might have the effect that the underlying device is
+        closed, making it available for other applications to use. The exact
+        behaviour depends on the module.
+      </p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">suspend-source</span> <span class="arg">SOURCE</span> <span class="arg">true|false</span></p>
+      <div class="optdesc"><p>Suspend or resume the specified source (which may be
+        specified either by its symbolic name or numerical index), depending whether true
+        (suspend) or false (resume) is passed as last argument. Suspending
+        a source will pause all capturing. Depending on the module implementing
+        the source this might have the effect that the underlying device is
+        closed, making it available for other applications to use. The exact
+        behaviour depends on the module.
+      </p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-card-profile</span> <span class="arg">CARD</span> <span class="arg">PROFILE</span></p>
+      <div class="optdesc"><p>Set the specified card (identified by its symbolic name or numerical index) to the specified profile (identified by its symbolic name).</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">get-default-sink</span></p>
+      <div class="optdesc"><p>Returns the symbolic name of the default sink.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-default-sink</span> <span class="arg">SINK</span></p>
+      <div class="optdesc"><p>Make the specified sink (identified by its symbolic name or numerical index) the default sink.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-sink-port</span> <span class="arg">SINK</span> <span class="arg">PORT</span></p>
+      <div class="optdesc"><p>Set the specified sink (identified by its symbolic name or numerical index) to the specified port (identified by its symbolic name).</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">get-default-source</span></p>
+      <div class="optdesc"><p>Returns the symbolic name of the default source.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-default-source</span> <span class="arg">SOURCE</span></p>
+      <div class="optdesc"><p>Make the specified source (identified by its symbolic name or numerical index) the default source.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-source-port</span> <span class="arg">SOURCE</span> <span class="arg">PORT</span></p>
+      <div class="optdesc"><p>Set the specified source (identified by its symbolic name or numerical index) to the specified port (identified by its symbolic name).</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-port-latency-offset</span> <span class="arg">CARD</span> <span class="arg">PORT</span> <span class="arg">OFFSET</span></p>
+      <div class="optdesc"><p>Set a latency offset to a specified port (identified by its symbolic name) that belongs to a card (identified by its symbolic name or numerical index).
+      <span class="arg">OFFSET</span> is a number which represents the latency offset in microseconds</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">get-sink-volume</span> <span class="arg">SINK</span></p>
+      <div class="optdesc"><p>Get the volume of the specified sink (identified by its symbolic name or numerical index) displayed in the same format as the `info` command.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-sink-volume</span> <span class="arg">SINK</span> <span class="arg">VOLUME [VOLUME ...]</span></p>
+      <div class="optdesc"><p>Set the volume of the specified sink (identified by its symbolic name or numerical index).
+      <span class="arg">VOLUME</span> can be specified as an integer (e.g. 2000, 16384), a linear factor (e.g. 0.4, 1.100), a percentage
+      (e.g.  10%, 100%) or a decibel value (e.g. 0dB, 20dB).  If the volume specification start with a + or - the volume
+      adjustment will be relative to the current sink volume.  A single volume value affects all channels; if multiple
+      volume values are given their number has to match the sink's number of channels.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">get-source-volume</span> <span class="arg">SOURCE</span></p>
+```
+      <div class="optdesc"><p>Get the volume of the specified source (identified by its symbolic name or numerical index) displayed in the same format as the `info` command.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-source-volume</span> <span class="arg">SOURCE</span> <span class="arg">VOLUME [VOLUME ...]</span></p>
+      <div class="optdesc"><p>Set the volume of the specified source (identified by its symbolic name or numerical index).
+      <span class="arg">VOLUME</span> can be specified as an integer (e.g. 2000, 16384), a linear factor (e.g. 0.4, 1.100), a percentage
+      (e.g.  10%, 100%) or a decibel value (e.g. 0dB, 20dB).  If the volume specification start with a + or - the volume
+      adjustment will be relative to the current source volume.  A single volume value affects all channels; if multiple
+      volume values are given their number has to match the source's number of channels.</p></div> </div>
+
+    <div class="option">
+      <p><span class="opt">set-sink-input-volume</span> <span class="arg">INPUT</span> <span class="arg">VOLUME [VOLUME ...]</span></p>
+      <div class="optdesc"><p>Set the volume of the specified sink input (identified by its numerical index).
+      <span class="arg">VOLUME</span> can be specified as an integer (e.g. 2000, 16384), a linear factor (e.g. 0.4, 1.100), a percentage
+      (e.g.  10%, 100%) or a decibel value (e.g. 0dB, 20dB).  If the volume specification start with a + or - the volume
+      adjustment will be relative to the current sink input volume.  A single volume value affects all channels; if multiple
+      volume values are given their number has to match the sink input's number of channels.</p></div> </div>
+
+    <div class="option">
+      <p><span class="opt">set-source-output-volume</span> <span class="arg">OUTPUT</span> <span class="arg">VOLUME [VOLUME ...]</span></p>
+      <div class="optdesc"><p>Set the volume of the specified source output (identified by its numerical index).
+      <span class="arg">VOLUME</span> can be specified as an integer (e.g. 2000, 16384), a linear factor (e.g. 0.4, 1.100), a percentage
+      (e.g.  10%, 100%) or a decibel value (e.g. 0dB, 20dB).  If the volume specification start with a + or - the volume
+      adjustment will be relative to the current source output volume.  A single volume value affects all channels; if multiple
+      volume values are given their number has to match the source output's number of channels.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">get-sink-mute</span> <span class="arg">SINK</span></p>
+      <div class="optdesc"><p>Get the mute status of the specified sink (identified by its symbolic name or numerical index).</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-sink-mute</span> <span class="arg">SINK</span> <span class="arg">1|0|toggle</span></p>
+      <div class="optdesc"><p>Set the mute status of the specified sink (identified by its symbolic name or numerical index).</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">get-source-mute</span> <span class="arg">SOURCE</span></p>
+      <div class="optdesc"><p>Get the mute status of the specified source (identified by its symbolic name or numerical index).</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-source-mute</span> <span class="arg">SOURCE</span> <span class="arg">1|0|toggle</span></p>
+      <div class="optdesc"><p>Set the mute status of the specified source (identified by its symbolic name or numerical index).</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-sink-input-mute</span> <span class="arg">INPUT</span> <span class="arg">1|0|toggle</span></p>
+      <div class="optdesc"><p>Set the mute status of the specified sink input (identified by its numerical index).</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-source-output-mute</span> <span class="arg">OUTPUT</span> <span class="arg">1|0|toggle</span></p>
+      <div class="optdesc"><p>Set the mute status of the specified source output (identified by its numerical index).</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-sink-formats</span> <span class="arg">SINK</span> <span class="arg">FORMATS</span></p>
+      <div class="optdesc"><p>Set the supported formats of the specified sink (identified
+      by its numerical index) if supported by the sink. <span class="arg">FORMATS</span> is
+      specified as a semi-colon (;) separated list of formats in the form
+      'encoding[, key1=value1, key2=value2, ...]' (for example, AC3 at 32000,
+      44100 and 48000 Hz would be specified as
+      'ac3-iec61937, format.rate = "[ 32000, 44100, 48000 ]"'). See
+      https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/SupportedAudioFormats/
+      for possible encodings. </p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">send-message</span> <span class="arg">RECIPIENT</span> <span class="arg">MESSAGE</span> <span class="arg">MESSAGE_PARAMETERS</span></p>
+      <div class="optdesc"><p>Send a message to the specified recipient object. If applicable an additional string containing
+      message parameters can be specified. A string is returned as a response to the message. For available messages
+      see https://cgit.freedesktop.org/pulseaudio/pulseaudio/tree/doc/messaging_api.txt.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">subscribe</span></p>
+      <div class="optdesc"><p>Subscribe to events, pactl does not exit by itself, but keeps waiting for new events.</p></div>
+    </div>
+
+  
+
+  <h1>Authors</h1>
+    <p>The PulseAudio Developers &lt;pulseaudio-discuss (at) lists (dot) freedesktop (dot) org&gt;; PulseAudio is available from <a class="url" href="http://pulseaudio.org/">http://pulseaudio.org/</a></p>
+  
+
+  <h1>Synopsis</h1>
+    <p>
+      <span class="manref">pulseaudio(1)</span>,
+      <span class="manref">pacmd(1)</span>
+    </p>
+  
+
+</body>
+</html>

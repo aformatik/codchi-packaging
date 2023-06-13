@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="iso-8859-15"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+    <title>pacmd(1)</title>
+    <style type="text/css">
+        body { color: black; background-color: white; }
+        a:link, a:visited { color: #900000; }
+        h1 { text-transform:uppercase; font-size: 18pt; }
+        p { margin-left:1cm; margin-right:1cm; }
+        .cmd { font-family:monospace; }
+        .file { font-family:monospace; }
+        .arg { text-transform:uppercase; font-family:monospace; font-style: italic; }
+        .opt { font-family:monospace; font-weight: bold;  }
+        .manref { font-family:monospace; }
+        .option .optdesc { margin-left:2cm; }
+      </style>
+  </head>
+  <body><h1>Name</h1><p>pacmd - Reconfigure a PulseAudio sound server during runtime</p>
+
+  <h1>Synopsis</h1>
+    <p class="cmd">pacmd</p>
+    <p class="cmd">pacmd <span class="opt">--help</span></p>
+    <p class="cmd">pacmd <span class="opt">--version</span></p>
+  
+
+  <h1>Description</h1>
+    <p>This tool can be used to introspect or reconfigure a running
+    PulseAudio sound server during runtime. It connects to the sound
+    server and offers a simple live shell that can be used to enter
+    the commands also understood in the <span class="file">default.pa</span>
+    configuration scripts.</p>
+
+    <p>To exit the live shell, use ctrl+d. Note that the 'exit' command
+    inside the shell will tell the PulseAudio daemon itself to shutdown!</p>
+
+    <p>If any arguments are passed on the command line, they will be
+    passed into the live shell which will process the command and exit.</p>
+  
+
+  <h1>Options</h1>
+
+    <div class="option">
+      <p><span class="opt">-h | --help</span></p>
+
+      <div class="optdesc"><p>Show help.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">--version</span></p>
+
+      <div class="optdesc"><p>Show version information.</p></div>
+    </div>
+
+  
+
+  <h1>Authors</h1>
+    <p>The PulseAudio Developers &lt;pulseaudio-discuss (at) lists (dot) freedesktop (dot) org&gt;; PulseAudio is available from <a class="url" href="http://pulseaudio.org/">http://pulseaudio.org/</a></p>
+  
+
+  <h1>See also</h1>
+    <p>
+      <span class="manref">pulse-cli-syntax(5)</span>,
+      <span class="manref">pulseaudio(1)</span>,
+      <span class="manref">pactl(1)</span>,
+      <span class="manref">default.pa(5)</span>
+    </p>
+  
+
+</body>
+</html>

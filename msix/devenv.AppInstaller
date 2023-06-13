@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AppInstaller
+    Uri="https://github.com/aformatik/NixOS-Devenv/releases/latest/download/devenv.AppInstaller"
+    Version="@VERSION@"
+    xmlns="http://schemas.microsoft.com/appx/appinstaller/2021">
+
+    <MainPackage
+        Name="Devenv"
+        Publisher="CN=nixos-devenv"
+        Version="@VERSION@"
+        ProcessorArchitecture="x64"
+        Uri="https://github.com/aformatik/NixOS-Devenv/releases/download/@VERSION_TAG@/devenv.msix" />
+
+    <UpdateSettings>
+        <AutomaticBackgroundTask/>
+        <ForceUpdateFromAnyVersion>true</ForceUpdateFromAnyVersion>
+    </UpdateSettings>
+
+</AppInstaller>

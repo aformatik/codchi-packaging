@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="iso-8859-15"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+    <title>pulse-cli-syntax(5)</title>
+    <style type="text/css">
+        body { color: black; background-color: white; }
+        a:link, a:visited { color: #900000; }
+        h1 { text-transform:uppercase; font-size: 18pt; }
+        p { margin-left:1cm; margin-right:1cm; }
+        .cmd { font-family:monospace; }
+        .file { font-family:monospace; }
+        .arg { text-transform:uppercase; font-family:monospace; font-style: italic; }
+        .opt { font-family:monospace; font-weight: bold;  }
+        .manref { font-family:monospace; }
+        .option .optdesc { margin-left:2cm; }
+      </style>
+  </head>
+  <body><h1>Name</h1><p>pulse-cli-syntax - PulseAudio Command Line Interface Syntax</p>
+
+  <h1>Synopsis</h1>
+    <p><span class="file">~/.config/pulse/default.pa</span></p>
+    <p><span class="file">/pulseaudio/etc/pulse/default.pa</span></p>
+    <p><span class="file">/pulseaudio/etc/pulse/system.pa</span></p>
+  
+
+  <h1>Description</h1>
+    <p>
+      PulseAudio provides a simple command line language used by configuration
+      scripts, the pacmd interactive shell, and the modules module-cli and
+      module-cli-protocol-{unix,tcp}. Empty lines and lines beginning with a
+      hashmark (#) are silently ignored. Several commands are supported.
+    </p>
+
+    <p>
+      Note that any boolean arguments can be given positively as '1', 't', 'y',
+      'true', 'yes' or 'on'. Likewise, negative values can be given as '0',
+      'f', 'n', 'false', 'no' or 'off'. Case is ignored.
+    </p>
+  
+
+  <h1>General Commands</h1>
+
+    <div class="option">
+      <p><span class="opt">help</span></p>
+      <div class="optdesc"><p>Show a quick help on the commands available.</p></div>
+    </div>
+  
+
+  <h1>Status Commands</h1>
+    <div class="option">
+      <p><span class="opt">list-modules</span></p>
+      <div class="optdesc"><p>Show all currently loaded modules with their arguments.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">list-cards</span></p>
+      <div class="optdesc"><p>Show all currently registered cards</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">list-sinks</span> or <span class="opt">list-sources</span></p>
+      <div class="optdesc"><p>Show all currently registered sinks (resp. sources).</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">list-clients</span></p>
+      <div class="optdesc"><p>Show all currently active clients.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">list-sink-inputs</span> or <span class="opt">list-source-outputs</span></p>
+      <div class="optdesc"><p>Show all currently active inputs to sinks a.k.a. playback
+      streams (resp. outputs of sources a.k.a. recording streams).</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">stat</span></p>
+      <div class="optdesc"><p>Show some simple statistics about the allocated memory blocks and the space used by them.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">info</span> or <span class="opt">ls</span> or <span class="opt">list</span></p>
+      <div class="optdesc"><p>A combination of all status commands described above (all
+      three commands are synonyms).</p></div>
+    </div>
+  
+
+  <h1>Module Management</h1>
+    <div class="option">
+      <p><span class="opt">load-module</span> <span class="arg">name</span> [<span class="arg">arguments...</span>]</p>
+      <div class="optdesc"><p>Load a module specified by its name and arguments. For most
+      modules it is OK to be loaded more than once.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">unload-module</span> <span class="arg">index|name</span></p>
+      <div class="optdesc"><p>Unload a module, specified either by its index in the module
+      list or its name.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">describe-module</span> <span class="arg">name</span></p>
+      <div class="optdesc"><p>Give information about a module specified by its name.</p></div>
+    </div>
+  
+
+  <h1>Volume Commands</h1>
+    <div class="option">
+      <p><span class="opt">set-sink-volume|set-source-volume</span> <span class="arg">index|name</span> <span class="arg">volume</span></p>
+      <div class="optdesc"><p>Set the volume of the specified sink (resp. source). You may
+      specify the sink (resp. source) either by its index in the sink/source list
+      or by its name. The volume should be an integer value greater or equal than
+      0 (muted). Volume 65536 (0x10000) is 'normal' volume a.k.a. 100%. Values
+      greater than this amplify the audio signal (with clipping).</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-sink-mute|set-source-mute</span> <span class="arg">index|name</span> <span class="arg">boolean</span></p>
+      <div class="optdesc"><p>Mute or unmute the specified sink (resp. source). You may
+      specify the sink (resp. source) either by its index or by its name.
+      The mute value is either 0 (not muted) or 1 (muted).</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-sink-input-volume|set-source-output-volume</span> <span class="arg">index</span> <span class="arg">volume</span></p>
+      <div class="optdesc"><p>Set the volume of a sink input (resp. source output) specified
+      by its index. The same volume rules apply as with set-sink-volume.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-sink-input-mute|set-source-output-mute</span> <span class="arg">index</span> <span class="arg">boolean</span></p>
+      <div class="optdesc"><p>Mute or unmute a sink input (resp. source output) specified
+      by its index. The same mute rules apply as with set-sink-mute.</p></div>
+    </div>
+  
+
+  <h1>Configuration Commands</h1>
+    <div class="option">
+      <p><span class="opt">set-default-sink|set-default-source</span> <span class="arg">index|name</span></p>
+      <div class="optdesc"><p>Make a sink (resp. source) the default. You may specify the
+      sink (resp. source) by its index in the sink (resp. source) list or by its
+      name.</p><p>Note that defaults may be overridden by various policy modules
+      or by specific stream configurations.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-card-profile</span> <span class="arg">index|name</span> <span class="arg">profile-name</span></p>
+      <div class="optdesc"><p>Change the profile of a card.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-sink-port|set-source-port</span> <span class="arg">index|name</span> <span class="arg">port-name</span></p>
+      <div class="optdesc"><p>Change the profile of a sink (resp. source).</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-port-latency-offset</span> <span class="arg">card-index|card-name</span> <span class="arg">port-name</span> <span class="arg">offset</span> </p>
+      <div class="optdesc"><p>Change the latency offset of a port belonging to the specified card</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">suspend-sink|suspend-source</span> <span class="arg">name|index</span>
+        <span class="arg">true|false</span>
+      </p>
+      <div class="optdesc"><p>Suspend or resume the specified sink or source (which may be
+        specified either by its name or index), depending whether true
+        (suspend) or false (resume) is passed as last argument. Suspending
+        a sink will pause all playback and suspending a source will pause all
+        capturing. Depending on the module implementing the sink or source this
+        might have the effect that the underlying device is closed, making it
+        available for other applications to use. The exact behaviour depends on
+        the module.
+      </p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">suspend</span> <span class="arg">boolean</span></p>
+      <div class="optdesc"><p>Suspend all sinks and sources.</p></div>
+    </div>
+  
+
+  <h1>Moving streams</h1>
+    <div class="option">
+      <p><span class="opt">move-sink-input|move-source-output</span> <span class="arg">index</span> <span class="arg">sink-index|sink-name</span></p>
+      <div class="optdesc"><p>Move sink input (resp. source output) to another sink
+      (resp. source).</p></div>
+    </div>
+  
+
+  <h1>Property lists</h1>
+    <div class="option">
+      <p><span class="opt">update-sink-proplist|update-source-proplist</span> <span class="arg">index|name</span> <span class="arg">properties</span></p>
+      <div class="optdesc"><p>Update the properties of a sink (resp. source) specified by
+      name or index. The property is specified as e.g. device.description="My
+      Preferred Name"</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">update-sink-input-proplist|update-source-output-proplist</span> <span class="arg">index</span> <span class="arg">properties</span></p>
+      <div class="optdesc"><p>Update the properties of a sink input (resp. source output)
+      specified by index. The properties are specified as above.</p></div>
+    </div>
+  
+
+  <h1>Sample Cache</h1>
+    <div class="option">
+      <p><span class="opt">list-samples</span></p>
+      <div class="optdesc"><p>Lists the contents of the sample cache.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">play-sample</span> <span class="arg">name</span> <span class="arg">sink-index|sink-name</span></p>
+      <div class="optdesc"><p>Play a sample cache entry to a sink.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">remove-sample</span> <span class="arg">name</span></p>
+      <div class="optdesc"><p>Remove an entry from the sample cache.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">load-sample</span> <span class="arg">name</span> <span class="arg">filename</span></p>
+      <div class="optdesc"><p>Load an audio file to the sample cache.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">load-sample-lazy</span> <span class="arg">name</span> <span class="arg">filename</span></p>
+      <div class="optdesc"><p>Create a new entry in the sample cache, but don't load the
+      sample immediately. The sample is loaded only when it is first used.
+      After a certain idle time it is freed again.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">load-sample-dir-lazy</span> <span class="arg">path</span></p>
+      <div class="optdesc"><p>Load all entries in the specified directory into the sample
+      cache as lazy entries. A shell globbing expression (e.g. *.wav) may be
+      appended to the path of the directory to add.</p></div>
+    </div>
+  
+
+  <h1>Killing Clients/Streams</h1>
+    <div class="option">
+      <p><span class="opt">kill-client</span> <span class="arg">index</span></p>
+      <div class="optdesc"><p>Remove a client forcibly from the server. There is no protection
+      against the client reconnecting immediately.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">kill-sink-input|kill-source-output</span> <span class="arg">index</span></p>
+      <div class="optdesc"><p>Remove a sink input (resp. source output) forcibly from the
+      server. This will not remove the owning client or any other streams opened
+      by the same client from the server.</p></div>
+    </div>
+  
+
+  <h1>Log Commands</h1>
+    <div class="option">
+      <p><span class="opt">set-log-level</span> <span class="arg">numeric-level</span></p>
+      <div class="optdesc"><p>Change the log level.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-log-meta</span> <span class="arg">boolean</span></p>
+      <div class="optdesc"><p>Show source code location in log messages.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-log-target</span> <span class="arg">target</span></p>
+      <div class="optdesc"><p>Change the log target (null, auto, journal, syslog, stderr,
+      file:PATH, newfile:PATH).</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-log-time</span> <span class="arg">boolean</span></p>
+      <div class="optdesc"><p>Show timestamps in log messages.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">set-log-backtrace</span> <span class="arg">num-frames</span></p>
+      <div class="optdesc"><p>Show backtrace in log messages.</p></div>
+    </div>
+  
+
+  <h1>Miscellaneous Commands</h1>
+    <div class="option">
+      <p><span class="opt">play-file</span> <span class="arg">filename</span> <span class="arg">sink-index|sink-name</span></p>
+      <div class="optdesc"><p>Play an audio file to a sink.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">dump</span></p>
+      <div class="optdesc"><p>Dump the daemon's current configuration in CLI commands.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">dump-volumes</span></p>
+      <div class="optdesc"><p>Debug: Shows the current state of all volumes.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">shared</span></p>
+      <div class="optdesc"><p>Debug: Show shared properties.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">send-message</span> <span class="arg">recipient</span> <span class="arg">message</span> <span class="arg">message_parameters</span></p>
+      <div class="optdesc"><p>Send a message to the specified recipient object. If applicable an additional string containing
+      message parameters can be specified. A string is returned as a response to the message. For available messages
+      see https://cgit.freedesktop.org/pulseaudio/pulseaudio/tree/doc/messaging_api.txt.</p></div>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">exit</span></p>
+      <div class="optdesc"><p>Terminate the daemon. If you want to terminate a CLI
+      connection ("log out") you might want to use ctrl+d</p></div>
+    </div>
+  
+
+  <h1>Meta Commands</h1>
+    <p>
+      In addition to the commands described above there are a few meta directives
+      supported by the command line interpreter.
+    </p>
+    <div class="option">
+      <p><span class="opt">.include</span> <span class="arg">filename|folder</span></p>
+      <div class="optdesc"><p>Executes the commands from the specified script file or in all
+      of the *.pa files within the folder.</p></div>
+    </div>
+    <div class="option">
+      <p><span class="opt">.fail</span> and <span class="opt">.nofail</span></p>
+      <div class="optdesc"><p>Enable (resp. disable) that following failing commands will
+      cancel the execution of the current script file. This is ignored when
+      used on the interactive command line.</p></div>
+    </div>
+    <div class="option">
+      <p><span class="opt">.ifexists</span> <span class="arg">filename</span></p>
+      <div class="optdesc"><p>Execute the subsequent block of commands only if the specified
+      file exists. Typically <span class="arg">filename</span> indicates a module. Relative
+      paths are resolved using the module directory as the base. By using an
+      absolute path, the existence of other files can be checked as well.</p></div>
+    </div>
+    <div class="option">
+      <p><span class="opt">.else</span> and <span class="opt">.endif</span></p>
+      <div class="optdesc"><p>A block of commands is delimited by an <span class="opt">.else</span> or
+      <span class="opt">.endif</span> meta command. Nesting conditional commands is not
+      supported.</p></div>
+    </div>
+  
+
+  <h1>Authors</h1>
+    <p>The PulseAudio Developers &lt;pulseaudio-discuss (at) lists (dot) freedesktop (dot) org&gt;;
+    PulseAudio is available from <a class="url" href="http://pulseaudio.org/">http://pulseaudio.org/</a></p>
+  
+
+  <h1>See also</h1>
+    <p>
+      <span class="manref">default.pa(5)</span>,
+      <span class="manref">pacmd(1)</span>,
+      <span class="manref">pulseaudio(1)</span>
+    </p>
+  
+
+</body>
+</html>

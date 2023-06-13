@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="iso-8859-15"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+    <title>pulse-client.conf(5)</title>
+    <style type="text/css">
+        body { color: black; background-color: white; }
+        a:link, a:visited { color: #900000; }
+        h1 { text-transform:uppercase; font-size: 18pt; }
+        p { margin-left:1cm; margin-right:1cm; }
+        .cmd { font-family:monospace; }
+        .file { font-family:monospace; }
+        .arg { text-transform:uppercase; font-family:monospace; font-style: italic; }
+        .opt { font-family:monospace; font-weight: bold;  }
+        .manref { font-family:monospace; }
+        .option .optdesc { margin-left:2cm; }
+      </style>
+  </head>
+  <body><h1>Name</h1><p>pulse-client.conf - PulseAudio client configuration file</p>
+
+  <h1>Synopsis</h1>
+    <p><span class="file">~/.config/pulse/client.conf</span></p>
+    <p><span class="file">~/.config/pulse/client.conf.d/*.conf</span></p>
+    <p><span class="file">/pulseaudio/etc/pulse/client.conf</span></p>
+    <p><span class="file">/pulseaudio/etc/pulse/client.conf.d/*.conf</span></p>
+  
+
+  <h1>Description</h1>
+    <p>The PulseAudio client library reads configuration directives from
+    a configuration file on startup. If the per-user file
+    <span class="file">~/.config/pulse/client.conf</span> exists, it is used, otherwise the
+    system configuration file <span class="file">/pulseaudio/etc/pulse/client.conf</span>
+    is used. In addition to those main files, configuration directives can also
+    be put in files under directories
+    <span class="file">~/.config/pulse/client.conf.d/</span> and
+    <span class="file">/pulseaudio/etc/pulse/client.conf.d/</span>. Those files have to
+    have the .conf file name extension, but otherwise the file names can be
+    chosen freely. The files under client.conf.d are processed in alphabetical
+    order. In case the same option is set in multiple files, the last file to
+    set an option overrides earlier files. The main client.conf file is
+    processed first, so options set in files under client.conf.d override the
+    main file.</p>
+
+    <p>The configuration file is a simple collection of variable
+    declarations. If the configuration file parser encounters either ;
+    or # it ignores the rest of the line until its end.</p>
+
+    <p>For the settings that take a boolean argument the values
+    <span class="opt">true</span>, <span class="opt">yes</span>, <span class="opt">on</span> and <span class="opt">1</span>
+    are equivalent, resp. <span class="opt">false</span>, <span class="opt">no</span>,
+    <span class="opt">off</span>, <span class="opt">0</span>.</p>
+
+  
+
+  <h1>Directives</h1>
+
+    <div class="option">
+      <p><span class="opt">default-sink=</span> The default sink to connect to. If
+      specified overwrites the setting in the daemon. The environment
+      variable <span class="opt">$PULSE_SINK</span> however takes precedence.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">default-source=</span> The default source to connect
+      to. If specified overwrites the setting in the daemon. The
+      environment variable <span class="opt">$PULSE_SOURCE</span> however takes
+      precedence.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">default-server=</span> The default sever to connect
+      to. The environment variable <span class="opt">$PULSE_SERVER</span> takes
+      precedence.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">autospawn=</span> Autospawn a PulseAudio daemon when needed. Takes
+      a boolean value, defaults to <span class="opt">yes</span>. Note that setting this to
+      "no" doesn't disable the systemd service. The autospawn option is only
+      meant to be used on systems without systemd. If you use systemd to start
+      PulseAudio, use "systemctl --user stop pulseaudio.service
+      pulseaudio.socket" to stop the daemon temporarily, or "systemctl --user
+      mask pulseaudio.service pulseaudio.socket" to permanently disable the
+      units (the "disable" command of systemctl probably won't work, because
+      the pulseaudio.socket unit is often installed to
+      /usr/lib/systemd/user/sockets.target.wants/, which makes it impossible to
+      disable the unit with the "disable" command).</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">daemon-binary=</span> Path to the PulseAudio daemon to
+      run when autospawning. Defaults to a path configured at compile
+      time.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">extra-arguments=</span> Extra arguments to pass to the
+      PulseAudio daemon when autospawning. Defaults to
+      <span class="opt">--log-target=syslog</span>
+      </p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">cookie-file=</span> Specify the path to the PulseAudio
+      authentication cookie. Defaults to
+      <span class="file">~/.config/pulse/cookie</span>.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">enable-shm=</span> Enable data transfer via POSIX
+      or memfd shared memory. Takes a boolean argument, defaults to
+      <span class="opt">yes</span>. If set to <span class="opt">no</span>, communication with
+      the server will be exclusively done through data-copy over
+      sockets.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">enable-memfd=</span>. Enable data transfer via memfd
+      shared memory. Takes a boolean argument, defaults to
+      <span class="opt">yes</span>.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">shm-size-bytes=</span> Sets the shared memory segment
+      size for clients, in bytes. If left unspecified or is set to 0
+      it will default to some system-specific default, usually 64
+      MiB. Please note that usually there is no need to change this
+      value, unless you are running an OS kernel that does not do
+      memory overcommit.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">auto-connect-localhost=</span> Automatically try to
+      connect to localhost via IP. Enabling this is a potential
+      security hole since connections are only authenticated one-way
+      and a rogue server might hence fool a client into sending it its
+      private (e.g. VoIP call) data. Defaults to <span class="opt">yes</span>.</p>
+    </div>
+
+    <div class="option">
+      <p><span class="opt">auto-connect-display=</span> Automatically try to connect
+      to the host X11's $DISPLAY variable is set to. The same security
+      issues apply as to <span class="opt">auto-connect-localhost=</span>. Defaults
+      to <span class="opt">no</span>.</p>
+    </div>
+
+  
+
+  <h1>Authors</h1>
+    <p>The PulseAudio Developers &lt;pulseaudio-discuss (at) lists (dot) freedesktop (dot) org&gt;;
+    PulseAudio is available from <a class="url" href="http://pulseaudio.org/">http://pulseaudio.org/</a></p>
+  
+
+  <h1>See also</h1>
+    <p>
+      <span class="manref">pulse-daemon.conf(5)</span>, <span class="manref">pulseaudio(1)</span>
+    </p>
+  
+
+</body>
+</html>
