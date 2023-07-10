@@ -10,19 +10,25 @@
 	xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
 	xmlns:desktop2="http://schemas.microsoft.com/appx/manifest/desktop/windows10/2"
     xmlns:desktop6="http://schemas.microsoft.com/appx/manifest/desktop/windows10/6"
-	IgnorableNamespaces="uap uap3 uap5 uap10 uap13 desktop6 rescap">
-  <Identity Name="Devenv" Publisher="CN=nixos-devenv" Version="@VERSION@" ProcessorArchitecture="x64" />
+    xmlns:virtualization="http://schemas.microsoft.com/appx/manifest/virtualization/windows10"
+	IgnorableNamespaces="uap uap3 uap5 uap10 uap13 desktop6 rescap virtualization">
+  <Identity Name="Codchi" Publisher="CN=nixos-devenv" Version="@VERSION@" ProcessorArchitecture="x64" />
   <Properties>
-    <DisplayName>Devenv</DisplayName>
-    <PublisherDisplayName>nixos-devenv</PublisherDisplayName>
-    <Description>Devenv via NixOS</Description>
-    <Logo>Assets\StoreLogo.png</Logo>
+    <DisplayName>Codchi</DisplayName>
+    <PublisherDisplayName>Codchi</PublisherDisplayName>
+    <Description>Declarative and Reproducible Development Environments as Code</Description>
+    <Logo>Assets\StoreLogo.jpg</Logo>
     <uap10:PackageIntegrity>
       <uap10:Content Enforcement="on" />
     </uap10:PackageIntegrity>
     <uap13:AutoUpdate>
-        <uap13:AppInstaller File="devenv.AppInstaller" />
+        <uap13:AppInstaller File="codchi.AppInstaller" />
     </uap13:AutoUpdate>
+    <virtualization:FileSystemWriteVirtualization>
+      <virtualization:ExcludedDirectories>
+        <virtualization:ExcludedDirectory>$(KnownFolder:LocalAppData)\codchi</virtualization:ExcludedDirectory>
+      </virtualization:ExcludedDirectories>
+    </virtualization:FileSystemWriteVirtualization>
   </Properties>
   <Resources>
     <Resource Language="en-us" />
@@ -31,32 +37,25 @@
     <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.22000.1" />
   </Dependencies>
   <Applications>
-    <Application Id="Devenv.App" Executable="devenv.exe" EntryPoint="Windows.FullTrustApplication" uap10:Parameters="start">
-      <uap:VisualElements DisplayName="Devenv" Description="Start Devenv" 
-			Square150x150Logo="Assets\StoreLogo.png"  Square44x44Logo="Assets\StoreLogo.png" 
+    <Application Id="Codchi.App" Executable="codchi.exe" EntryPoint="Windows.FullTrustApplication" uap10:Parameters="start">
+      <uap:VisualElements DisplayName="Codchi Controller" Description="Start Codchi Controller" 
+			Square150x150Logo="Assets\favicon150.png"  Square44x44Logo="Assets\favicon44.png" 
 			BackgroundColor="transparent"  AppListEntry="default">
-	    <uap:DefaultTile ShortName="Start Devenv">
+	    <uap:DefaultTile ShortName="Start Codchi Controller">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square150x150Logo" />
           </uap:ShowNameOnTiles>
         </uap:DefaultTile>
       </uap:VisualElements>
-      <!-- <Extensions> -->
-      <!--   <uap5:Extension Category="windows.appExecutionAlias" Executable="devenv.exe" EntryPoint="Windows.FullTrustApplication" uap10:Parameters="start"> -->
-      <!--     <uap5:AppExecutionAlias> -->
-      <!--       <uap5:ExecutionAlias Alias="devenv-server.exe" /> -->
-      <!--     </uap5:AppExecutionAlias> -->
-      <!--   </uap5:Extension> -->
-      <!-- </Extensions> -->
     </Application>
-    <Application Id="DevenvCLI.App" Executable="devenv.exe" EntryPoint="Windows.FullTrustApplication">
-      <uap:VisualElements DisplayName="Devenv CLI" Description="Devenv CLI" 
-			Square150x150Logo="Assets\StoreLogo.png"  Square44x44Logo="Assets\StoreLogo.png" 
+    <Application Id="Codchi.Cli" Executable="codchi.exe" EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements DisplayName="Codchi CLI" Description="Codchi CLI" 
+			Square150x150Logo="Assets\favicon150.png"  Square44x44Logo="Assets\favicon44.png" 
 			BackgroundColor="transparent" AppListEntry="none"/>
       <Extensions>
-        <uap5:Extension Category="windows.appExecutionAlias" Executable="devenv.exe" EntryPoint="Windows.FullTrustApplication">
+        <uap5:Extension Category="windows.appExecutionAlias" Executable="codchi.exe" EntryPoint="Windows.FullTrustApplication">
           <uap5:AppExecutionAlias>
-            <uap5:ExecutionAlias Alias="devenv.exe" />
+            <uap5:ExecutionAlias Alias="codchi.exe" />
           </uap5:AppExecutionAlias>
         </uap5:Extension>
       </Extensions>
@@ -70,12 +69,12 @@
   </Capabilities>
   <Extensions>
 	<desktop2:Extension Category="windows.firewallRules">
-  	  <desktop2:FirewallRules Executable="VFS\ProgramFilesX64\VcXsrv\devenv_vcxsrv.exe">
+  	  <desktop2:FirewallRules Executable="VFS\ProgramFilesX64\VcXsrv\codchi_vcxsrv.exe">
         <desktop2:Rule Direction="in" IPProtocol="TCP" LocalPortMax="6000" LocalPortMin="6000" Profile="all"/>
   	  </desktop2:FirewallRules>
 	</desktop2:Extension>
 	<desktop2:Extension Category="windows.firewallRules">
-  	  <desktop2:FirewallRules Executable="VFS\ProgramFilesX86\PulseAudio\bin\devenv_pulseaudio.exe">
+  	  <desktop2:FirewallRules Executable="VFS\ProgramFilesX86\PulseAudio\bin\codchi_pulseaudio.exe">
         <desktop2:Rule Direction="in" IPProtocol="TCP" LocalPortMax="4713" LocalPortMin="4713" Profile="all"/>
   	  </desktop2:FirewallRules>
 	</desktop2:Extension>

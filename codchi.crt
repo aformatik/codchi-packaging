@@ -1,7 +1,7 @@
 Bag Attributes
     localKeyID: 01 00 00 00 
     1.3.6.1.4.1.311.17.3.71: 57 00 49 00 4E 00 2D 00 46 00 45 00 31 00 37 00 46 00 48 00 52 00 35 00 42 00 45 00 36 00 00 00 
-    friendlyName: devenv Testing Certificate
+    friendlyName: Publisher Certificate for codchi.dev
 subject=CN = nixos-devenv
 issuer=CN = nixos-devenv
 -----BEGIN CERTIFICATE-----
