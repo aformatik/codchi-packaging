@@ -27,6 +27,7 @@
     <virtualization:FileSystemWriteVirtualization>
       <virtualization:ExcludedDirectories>
         <virtualization:ExcludedDirectory>$(KnownFolder:LocalAppData)\codchi</virtualization:ExcludedDirectory>
+        <virtualization:ExcludedDirectory>$(KnownFolder:RoamingAppData)\codchi</virtualization:ExcludedDirectory>
       </virtualization:ExcludedDirectories>
     </virtualization:FileSystemWriteVirtualization>
   </Properties>
