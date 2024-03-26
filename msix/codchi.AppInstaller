@@ -6,7 +6,7 @@
 
     <MainPackage
         Name="Codchi"
-        Publisher="CN=nixos-devenv"
+        Publisher="CN=aformatik Training u. Consulting GmbH u. Co. KG, O=aformatik Training u. Consulting GmbH u. Co. KG, L=Sindelfingen, S=Baden-Württemberg, C=DE"
         Version="@VERSION@"
         ProcessorArchitecture="x64"
         Uri="https://github.com/aformatik/codchi/releases/download/@VERSION_TAG@/codchi.msix" />
